@@ -1,3 +1,23 @@
+/*
+ * Ancient Indian Manuscript Aesthetic for Tantrayukti Game
+ * 
+ * Copyright (C) 2024 Gokul Chittaranjan (gokul@quaintscience.com)
+ * QuaintScience Technologies Pvt. Ltd.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 /* Ancient Indian Manuscript Aesthetic for Tantrayukti Game - Part 2 */
 
 /* Feature cards continued */
@@ -271,6 +291,11 @@
     background: rgba(156, 175, 136, 0.2);
     color: var(--deep-brown);
     padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
 
 /* Enhanced padding for Tantrayukti option cards */
 .tantrayukti-option .card-body {
@@ -560,4 +585,107 @@
     .scroll-icon {
         animation: none;
     }
+
+
+/* =================================
+   GAME CARD PADDING ENHANCEMENTS
+   ================================= */
+
+/* Enhanced question card padding */
+.question-card {
+    padding: 2.5rem !important;
+}
+
+.fragment-text {
+    padding: 2rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.fragment-meta {
+    padding: 1.25rem !important;
+    margin-top: 1.5rem !important;
+    background: rgba(212, 175, 55, 0.03) !important;
+    border-radius: 8px !important;
+}
+
+/* Enhanced Tantrayukti option card padding */
+.tantrayukti-option .card-body {
+    padding: 1.75rem !important;
+}
+
+.tantrayukti-option {
+    margin-bottom: 1rem !important;
+}
+
+.tantrayukti-name {
+    margin-bottom: 0.75rem !important;
+}
+
+.tantrayukti-description {
+    margin-bottom: 0.75rem !important;
+    padding-right: 2rem !important; /* Space for checkmark */
+}
+
+.tantrayukti-category {
+    margin-top: 0.75rem !important;
+}
+
+/* Game section spacing */
+.game-container {
+    padding: 3rem !important;
+}
+
+.feedback-section {
+    padding: 2rem !important;
+    margin-top: 2.5rem !important;
+}
+
+/* Question section spacing */
+#questionSection .row {
+    margin-bottom: 2rem !important;
+}
+
+#questionSection h5 {
+    margin-bottom: 2rem !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Action button area */
+.text-center.mt-4 {
+    margin-top: 2.5rem !important;
+    padding: 1.5rem !important;
+    background: rgba(212, 175, 55, 0.02) !important;
+    border-radius: 8px !important;
+}
+
+/* Container padding */
+.container.my-4 {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+}
+
+/* Mobile responsive padding */
+@media (max-width: 768px) {
+    .container.my-4 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    .question-card {
+        padding: 1.5rem !important;
+    }
+    
+    .fragment-text {
+        padding: 1.25rem !important;
+    }
+    
+    .tantrayukti-option .card-body {
+        padding: 1.25rem !important;
+    }
+    
+    .game-container {
+        padding: 2rem !important;
+    }
+}
 }

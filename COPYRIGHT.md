@@ -1,7 +1,8 @@
 # Copyright Notice
 
 The Architect of Knowledge: Tantrayukti Unveiled
-Copyright (C) 2024
+Copyright (C) 2024 Gokul Chittaranjan (gokul@quaintscience.com)
+QuaintScience Technologies Pvt. Ltd.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,3 +39,14 @@ This project uses the GNU General Public License v3.0 (GPL-3.0), which means:
 - Patent rights are not granted beyond GPL-3.0 terms
 
 For the complete license terms, see the `LICENSE` file in this repository.
+
+## Contact Information
+
+**Author:** Gokul Chittaranjan  
+**Email:** gokul@quaintscience.com  
+**Company:** QuaintScience Technologies Pvt. Ltd.  
+**Project:** Educational game teaching ancient Indian Tantrayukti analytical methods
+
+## About QuaintScience Technologies
+
+QuaintScience Technologies Pvt. Ltd. develops innovative educational software that bridges ancient wisdom with modern technology, making classical knowledge accessible through interactive digital experiences.
