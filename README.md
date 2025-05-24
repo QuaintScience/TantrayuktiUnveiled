@@ -26,6 +26,18 @@ python app.py
 
 The server runs on http://localhost:5000
 
+## License
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
+See the [LICENSE](LICENSE) file for the complete license terms.
+
+### Quick License Summary:
+- ✅ **Free to use, modify, and distribute**
+- ⚠️ **Must share source code if you distribute**
+- 🔄 **Modifications must also be GPL-3.0 licensed**
+- 📄 **See [COPYRIGHT.md](COPYRIGHT.md) for details**
+
+
 ## Features
 
 - Ancient Indian manuscript aesthetic
