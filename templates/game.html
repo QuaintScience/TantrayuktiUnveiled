@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block title %}Play - The Architect of Knowledge{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Game Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="game-progress">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="ancient-title mb-0">
+                        <i class="fas fa-scroll me-2"></i>
+                        Scholar's Challenge
+                    </h2>
+                    <div class="score-display">
+                        <i class="fas fa-star me-1"></i>
+                        Score: <span id="currentScore">0</span>
+                    </div>
+                </div>
+                
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="progress progress-ancient">
+                            <div class="progress-bar progress-bar-ancient" id="gameProgress" 
+                                 role="progressbar" style="width: 0%" 
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                        <span class="badge bg-secondary fs-6" id="questionCounter">
+                            Question 0 of 0
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Content -->
+    <div class="row">
+        <div class="col-12">
+            <!-- Start Game Section -->
+            <div id="startGameSection" class="text-center">
+                <div class="game-container p-5">
+                    <h3 class="ancient-title mb-4">
+                        <i class="fas fa-play-circle me-2"></i>
+                        Begin Your Scholarly Journey
+                    </h3>
+                    
+                    <p class="lead ancient-text mb-4">
+                        Test your understanding of Tantrayukti by analyzing classical Indian texts. 
+                        Each question will present a textual fragment that requires the application 
+                        of appropriate analytical tools.
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <button class="btn btn-lg ancient-btn-primary" onclick="startNewGame()">
+                            <i class="fas fa-rocket me-2"></i>
+                            Start Game
+                        </button>
+                        <button class="btn btn-lg ancient-btn-secondary" onclick="showGameInstructions()">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Instructions
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Section -->
+            <div id="questionSection" style="display: none;">
+                <div class="question-card fade-in">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h4 class="ancient-title">
+                            <i class="fas fa-scroll me-2"></i>
+                            Textual Fragment Analysis
+                        </h4>
+                        <button class="btn btn-sm ancient-btn-secondary" onclick="showHint()" id="hintButton">
+                            <i class="fas fa-lightbulb me-1"></i>
+                            Hint
+                        </button>
+                    </div>
+
+                    <div class="fragment-text" id="fragmentText">
+                        <!-- Fragment text will be inserted here -->
+                    </div>
+
+                    <div class="fragment-meta">
+                        <div>
+                            <strong>Discipline:</strong> <span id="fragmentDiscipline"></span>
+                        </div>
+                        <div>
+                            <strong>Source:</strong> <span id="fragmentSource"></span>
+                        </div>
+                        <div>
+                            <strong>Difficulty:</strong> 
+                            <span id="fragmentDifficulty" class="badge"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tantrayukti Options -->
+                <div class="row">
+                    <div class="col-12">
+                        <h5 class="ancient-title mb-3">
+                            <i class="fas fa-tools me-2"></i>
+                            Select the Appropriate Tantrayukti
+                        </h5>
+                        <p class="text-muted mb-4">
+                            Choose one or more analytical tools that best fit this textual fragment:
+                        </p>
+                        
+                        <div id="tantrayuktiOptions" class="row">
+                            <!-- Options will be dynamically inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center mt-4">
+                    <button class="btn btn-lg ancient-btn-primary me-3" onclick="submitAnswer()" id="submitButton" disabled>
+                        <i class="fas fa-check me-2"></i>
+                        Submit Answer
+                    </button>
+                    <button class="btn btn-lg ancient-btn-secondary" onclick="skipQuestion()" id="skipButton">
+                        <i class="fas fa-forward me-2"></i>
+                        Skip Question
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div id="feedbackSection" style="display: none;">
+                <div class="feedback-section">
+                    <h4 class="feedback-title">
+                        <i id="feedbackIcon" class="me-2"></i>
+                        <span id="feedbackTitle"></span>
+                    </h4>
+                    
+                    <div id="feedbackContent">
+                        <!-- Feedback content will be inserted here -->
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button class="btn btn-lg ancient-btn-primary" onclick="nextQuestion()">
+                            <i class="fas fa-arrow-right me-2"></i>
+                            Next Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Complete Section -->
+            <div id="gameCompleteSection" style="display: none;">
+                <div class="game-container p-5 text-center">
+                    <h2 class="ancient-title mb-4">
+                        <i class="fas fa-trophy me-2"></i>
+                        Scholar's Journey Complete!
+                    </h2>
+                    
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-8">
+                            <div class="final-stats">
+                                <div class="row g-3">
+                                    <div class="col-6 col-md-3">
+                                        <div class="stat-card">
+                                            <i class="fas fa-star stat-icon"></i>
+                                            <div class="stat-number" id="finalScore">0</div>
+                                            <div class="stat-label">Final Score</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="stat-card">
+                                            <i class="fas fa-check-circle stat-icon"></i>
+                                            <div class="stat-number" id="correctAnswers">0</div>
+                                            <div class="stat-label">Correct</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="stat-card">
+                                            <i class="fas fa-percentage stat-icon"></i>
+                                            <div class="stat-number" id="accuracy">0%</div>
+                                            <div class="stat-label">Accuracy</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="stat-card">
+                                            <i class="fas fa-medal stat-icon"></i>
+                                            <div class="stat-number" id="rank">-</div>
+                                            <div class="stat-label">Rank</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-message mb-4">
+                        <p class="lead" id="performanceText"></p>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <button class="btn btn-lg ancient-btn-primary" onclick="startNewGame()">
+                            <i class="fas fa-redo me-2"></i>
+                            Play Again
+                        </button>
+                        <a href="{{ url_for('index') }}" class="btn btn-lg ancient-btn-secondary">
+                            <i class="fas fa-home me-2"></i>
+                            Return Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hint Modal -->
+<div class="modal fade" id="hintModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content ancient-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    Scholar's Guidance
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="hintContent">
+                    <!-- Hint content will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn ancient-btn-secondary" data-bs-dismiss="modal">
+                    Continue Learning
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Instructions Modal -->
+<div class="modal fade" id="gameInstructionsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ancient-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-scroll me-2"></i>
+                    Game Instructions: The Scholar's Path
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="instructions-content">
+                    <h6><i class="fas fa-target me-2"></i>Objective</h6>
+                    <p>Apply the correct Tantrayukti (analytical tools) to various textual fragments from classical Indian literature. Each fragment represents different disciplines and requires different analytical approaches.</p>
+                    
+                    <h6><i class="fas fa-gamepad me-2"></i>How to Play</h6>
+                    <ol>
+                        <li><strong>Read the Fragment:</strong> Carefully analyze the textual passage</li>
+                        <li><strong>Consider Context:</strong> Note the discipline, source, and difficulty level</li>
+                        <li><strong>Select Tools:</strong> Choose appropriate Tantrayukti device(s)</li>
+                        <li><strong>Submit & Learn:</strong> Get immediate feedback with explanations</li>
+                    </ol>
+
+                    <h6><i class="fas fa-trophy me-2"></i>Scoring System</h6>
+                    <ul>
+                        <li><strong>Perfect Match:</strong> +3 Coherence Points</li>
+                        <li><strong>Correct Choice:</strong> +2 Coherence Points</li>
+                        <li><strong>Partially Correct:</strong> +1 Coherence Point</li>
+                        <li><strong>Incorrect:</strong> -1 Coherence Point</li>
+                    </ul>
+
+                    <h6><i class="fas fa-brain me-2"></i>Tips for Success</h6>
+                    <ul>
+                        <li>Different disciplines (legal, medical, philosophical) use different tools</li>
+                        <li>Pay attention to the fragment's purpose: defining, explaining, arguing, or organizing</li>
+                        <li>Consider whether the text is introducing new concepts or building on previous ones</li>
+                        <li>Use hints wisely - they provide contextual guidance</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn ancient-btn-primary" data-bs-dismiss="modal">
+                    Begin the Challenge
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,301 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <h1 class="display-3 ancient-title mb-4">
+                        <span class="sanskrit-text">तन्त्रयुक्ति अनावृत्तम्</span>
+                        <br>
+                        <span class="english-subtitle">The Architect of Knowledge</span>
+                    </h1>
+                    
+                    <p class="lead ancient-text mb-4">
+                        Journey into the sophisticated world of ancient Indian scholarship. 
+                        Master the <em>Tantrayukti</em> - the adaptive analytical instruments 
+                        that guided classical scholars in interpreting texts across diverse disciplines.
+                    </p>
+
+                    <div class="wisdom-quote mb-4 p-4">
+                        <i class="fas fa-quote-left quote-icon"></i>
+                        <p class="quote-text mb-2">
+                            "These were not rigid protocols, but adaptive instruments, 
+                            responsive to the structure, content, and goals of each discipline."
+                        </p>
+                        <small class="quote-attribution">- Ancient Wisdom Tradition</small>
+                    </div>
+
+                    {% if not user %}
+                    <div class="entry-section">
+                        <h3 class="mb-3">
+                            <i class="fas fa-door-open me-2"></i>
+                            Enter the Hall of Learning
+                        </h3>
+                        
+                        <div class="input-group mb-3" style="max-width: 400px;">
+                            <span class="input-group-text ancient-input-addon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control ancient-input" 
+                                   id="usernameInput" 
+                                   placeholder="Enter your scholar name"
+                                   maxlength="50">
+                        </div>
+                        
+                        <button class="btn btn-lg ancient-btn-primary" onclick="registerUser()">
+                            <i class="fas fa-scroll me-2"></i>
+                            Begin Your Journey
+                        </button>
+                        
+                        <p class="small text-muted mt-2">
+                            New scholars welcome • Returning scholars will be recognized
+                        </p>
+                    </div>
+                    {% else %}
+                    <div class="welcome-back-section">
+                        <div class="scholar-welcome p-4 mb-4">
+                            <h3 class="mb-3">
+                                <i class="fas fa-namaste me-2"></i>
+                                Welcome back, Scholar {{ user.username }}!
+                            </h3>
+                            
+                            <div class="stats-grid row g-3 mb-4">
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card text-center">
+                                        <i class="fas fa-trophy stat-icon"></i>
+                                        <div class="stat-number">{{ user.best_score }}</div>
+                                        <div class="stat-label">Best Score</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card text-center">
+                                        <i class="fas fa-gamepad stat-icon"></i>
+                                        <div class="stat-number">{{ user.games_played }}</div>
+                                        <div class="stat-label">Games Played</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card text-center">
+                                        <i class="fas fa-star stat-icon"></i>
+                                        <div class="stat-number">{{ user.total_score }}</div>
+                                        <div class="stat-label">Total Score</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="stat-card text-center">
+                                        <i class="fas fa-brain stat-icon"></i>
+                                        <div class="stat-number">
+                                            {% if user.games_played > 0 %}
+                                                {{ "%.1f"|format(user.total_score / user.games_played) }}
+                                            {% else %}
+                                                0
+                                            {% endif %}
+                                        </div>
+                                        <div class="stat-label">Avg Score</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <a href="{{ url_for('game') }}" class="btn btn-lg ancient-btn-primary me-3">
+                                <i class="fas fa-play me-2"></i>
+                                Start New Game
+                            </a>
+                            <button class="btn btn-lg ancient-btn-secondary" onclick="showInstructions()">
+                                <i class="fas fa-book me-2"></i>
+                                How to Play
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="hero-visual">
+                    <div class="manuscript-illustration">
+                        <div class="scroll-container">
+                            <i class="fas fa-scroll scroll-icon"></i>
+                            <div class="floating-symbols">
+                                <span class="symbol symbol-1">ॐ</span>
+                                <span class="symbol symbol-2">श्री</span>
+                                <span class="symbol symbol-3">गं</span>
+                                <span class="symbol symbol-4">स्वाहा</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tantrayukti-preview mt-4">
+                            <h4 class="text-center mb-3">The Tantrayukti Tools</h4>
+                            <div class="tools-grid">
+                                <div class="tool-item">प्रयोजन<br><small>Purpose</small></div>
+                                <div class="tool-item">उद्देश<br><small>Overview</small></div>
+                                <div class="tool-item">निर्देश<br><small>Details</small></div>
+                                <div class="tool-item">ऊह्य<br><small>Inference</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<section class="about-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="section-title mb-4">
+                    <i class="fas fa-university me-2"></i>
+                    What is Tantrayukti?
+                </h2>
+                
+                <p class="lead mb-4">
+                    <em>Tantrayukti</em> represents one of the most sophisticated analytical 
+                    frameworks developed in classical Indian scholarship. These "methods of 
+                    systematic arrangement" were adaptive instruments used by ancient scholars 
+                    to organize, interpret, and transmit knowledge across diverse disciplines.
+                </p>
+
+                <div class="row g-4 mt-4">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="fas fa-balance-scale feature-icon"></i>
+                            <h5>Legal Texts</h5>
+                            <p>Organizing principles of governance and justice</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="fas fa-heartbeat feature-icon"></i>
+                            <h5>Medical Treatises</h5>
+                            <p>Systematic approaches to diagnosis and treatment</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <i class="fas fa-yin-yang feature-icon"></i>
+                            <h5>Philosophy</h5>
+                            <p>Structured methods for philosophical inquiry</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Instructions Modal -->
+<div class="modal fade" id="instructionsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content ancient-modal">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-scroll me-2"></i>
+                    How to Play: The Path of the Scholar
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="instructions-content">
+                    <h6><i class="fas fa-star me-2"></i>Your Mission</h6>
+                    <p>As an ancient scholar, you must apply the correct Tantrayukti (analytical tool) to different textual fragments from classical Indian literature.</p>
+                    
+                    <h6><i class="fas fa-cogs me-2"></i>How It Works</h6>
+                    <ol>
+                        <li>Read each textual fragment carefully</li>
+                        <li>Consider the context, discipline, and purpose</li>
+                        <li>Select the most appropriate Tantrayukti tool(s)</li>
+                        <li>Receive immediate feedback and learn from each choice</li>
+                    </ol>
+
+                    <h6><i class="fas fa-award me-2"></i>Scoring</h6>
+                    <ul>
+                        <li><strong>Correct Match:</strong> +2 Coherence Points</li>
+                        <li><strong>Partially Correct:</strong> +1 Coherence Point</li>
+                        <li><strong>Incorrect:</strong> -1 Coherence Point</li>
+                    </ul>
+
+                    <h6><i class="fas fa-lightbulb me-2"></i>Tips for Success</h6>
+                    <ul>
+                        <li>Remember that different disciplines require different approaches</li>
+                        <li>Pay attention to whether the text is introducing, explaining, or resolving concepts</li>
+                        <li>Consider the text's purpose: is it defining, arguing, organizing, or illustrating?</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn ancient-btn-primary" data-bs-dismiss="modal">
+                    Begin Your Journey
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function registerUser() {
+        const username = document.getElementById('usernameInput').value.trim();
+        
+        if (!username) {
+            alert('Please enter your scholar name');
+            return;
+        }
+
+        const submitBtn = document.querySelector('.ancient-btn-primary');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Entering...';
+        submitBtn.disabled = true;
+
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: username })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                playSound('gameStart');
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            } else {
+                alert(data.error || 'Registration failed');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Connection error. Please try again.');
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        });
+    }
+
+    function showInstructions() {
+        const modal = new bootstrap.Modal(document.getElementById('instructionsModal'));
+        modal.show();
+    }
+
+    // Allow Enter key to submit registration
+    document.addEventListener('DOMContentLoaded', function() {
+        const usernameInput = document.getElementById('usernameInput');
+        if (usernameInput) {
+            usernameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    registerUser();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

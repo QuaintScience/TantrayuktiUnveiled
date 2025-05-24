@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}The Architect of Knowledge: Tantrayukti Unveiled{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts - Ancient/Sanskrit feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ancient-style.css') }}">
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Ancient manuscript background overlay -->
+    <div class="manuscript-overlay"></div>
+    
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg ancient-nav">
+        <div class="container">
+            <a class="navbar-brand ancient-title" href="{{ url_for('index') }}">
+                <i class="fas fa-scroll me-2"></i>
+                <span class="title-sanskrit">तन्त्रयुक्ति</span>
+                <span class="title-english">Tantrayukti</span>
+            </a>
+            
+            {% if session.username %}
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle ancient-link" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        {{ session.username }}
+                    </a>
+                    <ul class="dropdown-menu ancient-dropdown">
+                        <li><a class="dropdown-item" href="#" onclick="showStats()">
+                            <i class="fas fa-chart-line me-2"></i>Statistics
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-fluid px-0">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="ancient-footer mt-5">
+        <div class="container text-center py-4">
+            <div class="row">
+                <div class="col-12">
+                    <p class="mb-2">
+                        <i class="fas fa-om me-2"></i>
+                        Ancient wisdom meets modern learning
+                        <i class="fas fa-lotus ms-2"></i>
+                    </p>
+                    <p class="small text-muted mb-0">
+                        Discover the sophisticated analytical tools of classical Indian scholarship
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Fixed Sound System and Global Functions -->
+    <script>
+        // Simple sound system using Web Audio API
+        let soundEnabled = false;
+
+        function playBeep(frequency = 800, duration = 200, volume = 0.1) {
+            if (!soundEnabled) return;
+            
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration / 1000);
+                
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            } catch (e) {
+                // Silent fail - sound is not critical
+            }
+        }
+
+        // Play sound function with different tones
+        function playSound(soundName) {
+            if (!soundEnabled) return;
+            
+            switch(soundName) {
+                case 'correct':
+                    playBeep(900, 300, 0.1);
+                    break;
+                case 'incorrect':
+                    playBeep(400, 500, 0.1);
+                    break;
+                case 'gameStart':
+                    playBeep(1200, 400, 0.1);
+                    break;
+                case 'gameComplete':
+                    playBeep(800, 200, 0.1);
+                    setTimeout(() => playBeep(1000, 200, 0.1), 200);
+                    setTimeout(() => playBeep(1200, 400, 0.1), 400);
+                    break;
+                case 'buttonClick':
+                    playBeep(600, 100, 0.05);
+                    break;
+            }
+        }
+
+        // Enable sound on first user interaction
+        document.addEventListener('click', () => {
+            soundEnabled = true;
+        }, { once: true });
+
+        // Global functions for HTML onclick handlers
+        window.logout = function() {
+            fetch('/logout', { method: 'POST' })
+                .then(() => window.location.reload())
+                .catch(() => window.location.reload());
+        };
+
+        window.showStats = function() {
+            console.log('📊 User stats feature');
+        };
+
+        // Game functions - will be overridden by game.js
+        window.startNewGame = function() {
+            if (window.game && window.game.startNewGame) {
+                window.game.startNewGame();
+            } else {
+                console.log('Game not initialized yet');
+            }
+        };
+
+        window.showGameInstructions = function() {
+            const modal = document.getElementById('instructionsModal') || document.getElementById('gameInstructionsModal');
+            if (modal) {
+                const bootstrapModal = new bootstrap.Modal(modal);
+                bootstrapModal.show();
+            }
+        };
+
+        window.submitAnswer = function() {
+            if (window.game && window.game.submitAnswer) {
+                window.game.submitAnswer();
+            }
+        };
+
+        window.nextQuestion = function() {
+            if (window.game && window.game.nextQuestion) {
+                window.game.nextQuestion();
+            }
+        };
+
+        window.skipQuestion = function() {
+            if (window.game && window.game.skipQuestion) {
+                window.game.skipQuestion();
+            }
+        };
+
+        window.showHint = function() {
+            if (window.game && window.game.showHint) {
+                window.game.showHint();
+            }
+        };
+
+        console.log('✅ Base JavaScript loaded successfully');
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>
